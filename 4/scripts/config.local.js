@@ -1,0 +1,5 @@
+window.PIX_CRED = {
+  API_KEY: 'sk_6dfc60ecc38cb17c97db4289f4905e112907862899c828c47efb76eb3d23fbcb',
+  PRODUCT_HASH: 'prod_69ea6e77b7954143',
+};
+

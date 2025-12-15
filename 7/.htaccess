@@ -1,0 +1,9 @@
+RewriteEngine On
+RewriteBase /2/
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+RewriteCond %{REQUEST_URI} ^/2/([0-9]+)/?$ [NC]
+RewriteCond %{DOCUMENT_ROOT}/2/index-%1.html -f
+RewriteRule ^([0-9]+)/?$ index-%1.html [L]
+RewriteRule ^([0-9]+)/?$ index.html [L]

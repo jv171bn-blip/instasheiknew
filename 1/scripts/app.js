@@ -1,4 +1,14 @@
 (() => {
+  if (!window.fbq) {
+    (function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)})(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  }
+  try {
+    window.fbq('init', '1246894817453773');
+    window.fbq('track', 'PageView');
+  } catch(e) {}
   const modal = document.getElementById('pix-modal');
   console.log('modal:', modal);
   const closeBtn = modal.querySelector('.modal-close');
@@ -24,6 +34,7 @@
 
   const ctaBtn = document.querySelector('.cta');
   console.log('ctaBtn:', ctaBtn);
+  let initiateCheckoutDisparado = false;
 
   function openModal() {
     modal.classList.remove('hidden');
@@ -136,15 +147,19 @@
     }
   }
 
-  // Eventos
-  if (ctaBtn) {
-    ctaBtn.addEventListener('click', () => {
-      openModal();
-      qrImg.classList.add('hidden');
-      qrSkeleton.style.display = 'block';
-      pixCodeInput.value = '';
-      createPixTransaction();
-    });
+  window.abrirPopupPix = function() {
+    openModal();
+    qrImg.classList.add('hidden');
+    qrSkeleton.style.display = 'block';
+    pixCodeInput.value = '';
+    createPixTransaction();
+    if (!initiateCheckoutDisparado && window.fbq) {
+      fbq('track', 'InitiateCheckout');
+      initiateCheckoutDisparado = true;
+    }
+  };
+  if (ctaBtn && !ctaBtn.hasAttribute('onclick')) {
+    ctaBtn.addEventListener('click', window.abrirPopupPix);
   }
   closeBtn.addEventListener('click', closeModal);
   modal.querySelector('.overlay').addEventListener('click', closeModal);
